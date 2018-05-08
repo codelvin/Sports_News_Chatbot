@@ -7,34 +7,41 @@ from baseball_rosters import baseball_roster
 
 bot_template = "BOT : {0}"
 user_template = "USER : {0}"
-query_winner = "Cubs"
-query_team = "Cubs"
-query_roster = "bla bla"
+query_winner = "Cardinals"
+roster_team = " "
 user_input = raw_input("Ask The Bot A Question: ")
 message = user_input.lower()
 query_team = message.split()[3]
+query_roster = "blabla"
 roster_team = message.split()[3] +" "+ message.split()[4] +" "+ message.split()[5]
-print roster_team
-query_roster = baseball_roster[roster_team]
+
+#query_roster = baseball_roster[roster_team]
+#pattern = "give me the roster for (.*)"
+#match = re.search(pattern, message)
+#roster_team2 = match.group(1)
+#print roster_team2
 
 
 responses = {
 	"who won the cubs game yesterday?" : "Yesterday, the {0} won the game".format(query_winner),
 	"give me the boston red sox roster?" : "The roster for {0} is: {1}".format(roster_team, query_roster),
+	"give me the toronto blue jays roster?" : "The roster for {0} is: {1}".format(roster_team, query_roster),
+	"give me the chicago white sox roster?" : "The roster for {0} is: {1}".format(roster_team, query_roster),
 }
 
 def respond(message):
+	if roster_team in baseball_roster:
+		query_roster = baseball_roster[roster_team]
+		return "The roster is: " + query_roster
 	if message in responses:
 		return responses[message].format(query_winner)
 	else:
-		return "Sorry, can you repeat that in other words?"
+		return "Sorry, can you rephrase the question?"
 
 def make_question(message):
 	if not message.endswith("?"):
 		message = message + "?"
 
-make_question(message)
-print respond(message)
 
 
 def send_message(message):
@@ -56,6 +63,11 @@ def swap_pronouns(message):
 	else:
 		return message
 
+message = make_question(message)
+print respond(message)
+#message = raw_input('Ask another question:')
+#make_question(message)
+#print respond(message)
 
 #pattern1 = "do you remember .*"
 #message1 = "do you remember when you ate berries?"
@@ -65,4 +77,9 @@ def swap_pronouns(message):
 #message2 = "what would happen if bots took over the world?"
 #match = re.search(pattern, message)
 
-
+#def respond(message):
+	#if not baseball_roster[roster_team]:
+	#	print reportUpdate(message)
+	#else:
+	#	query_roster = baseball_roster[roster_team]
+	#	return "The roster is: " + query_roster
