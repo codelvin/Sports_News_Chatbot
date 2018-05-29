@@ -1,0 +1,91 @@
+Passing attempts
+Completions
+Gross passing yards
+Yards per pass attempt
+Net passing yards per game
+Longest pass
+Passing touchdowns
+Passing touchdown percentage
+Interceptions
+Interception percentage
+Sacks
+Sacked yards lost
+Passer rating
+Rushing attempts
+Rushing yards
+Yards per rush attempt
+Longest rush
+Carries over 20 yards
+Rushing touchdowns
+Rushing yards per game
+Rushing fumbles
+Rushing fumbles lost
+Rushing first downs
+Receptions
+Receiving targets
+Receiving yards
+Average yards per reception
+Receiving touchdowns
+Longest reception
+Receptions over 20 yards
+Receiving yards per game
+Receiving fumbles
+Receiving fumbles lost
+Yards after catch
+Receiving first downs
+Unassisted tackles
+Assisted tackles
+Tackles
+Sacks
+Yards lost on sack
+Tackles for a loss
+Passes defended
+Interceptions
+Intercepted returned yards
+Longest interception return
+Interceptions returned for touchdowns
+Forced fumbles
+Fumbles recovered
+Fumbles returned for touchdowns
+Blocked kicks
+Rushing touchdowns
+Receiving touchdowns
+Return touchdowns
+Touchdowns
+Field goals
+Extra points
+Two-point conversions
+Total points
+Total points per game
+Kickoff return attempts
+Kickoff return yards
+Average yards per kickoff return
+Longest kickoff return
+Kickoff return touchdowns
+Punts returned
+Yards returned on punts
+Average yards per punt return
+Longest punt return
+Punt return touchdowns
+Fair catches
+Field goals made
+Field goal attempts
+Percentage of field goals made
+Longest field goal made
+Extra points made
+Extra point attempts
+Punts
+Gross punt yards
+Longest punt
+Gross punting average
+Net punting average
+Blocked punts
+Punts inside the 20 yard line
+Touchbacks
+Fair catches
+Punts returned
+Yards returned on punts
+Average return yards on punts
+Games played
+Stuffs
+First downs
