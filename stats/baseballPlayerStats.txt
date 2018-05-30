@@ -1,0 +1,47 @@
+Games played
+At bats
+Runs
+Hits
+Doubles
+Triples
+Home runs
+Runs batted in
+Total Bases
+Walk
+Strikeout
+Stolen Bases
+Batting average
+Games Started
+Full Innings
+Total Chances
+Putouts
+Assists
+Errors
+Double plays
+Passed Balls
+Caught Stealing
+Pitches seen per plate appearance
+Batting average
+Bases on balls
+Fly balls
+Hits
+Runs
+Runs batted in
+Runs created
+Stolen bases
+Sacrifice flies
+Sacrifice hits
+Slugging percentage
+Strikeouts
+Total bases
+Pitches thrown per inning
+Pitches thrown per start
+Pitches thrown
+Batting average allowed
+Balks
+Hits against
+Shutouts
+Strikeouts
+Saves
+Total batters faced
+Wild pitches

@@ -1,0 +1,25 @@
+Minutes
+Points
+3-Point Field Goal
+Field Goal
+Free Throws
+Offensive Rebounds
+Defensive Rebounds
+Rebounds
+Assists
+Blocks
+Steals
+Personal Fouls
+Turnovers
+Double Doubles
+Triple Doubles
+Disqualifications
+Ejections
+Technical Fouls
+Flagrant Fouls
+Assists Per Turnovers
+Steals Per Turnovers
+NBA Rating
+Scoring Efficiency
+Shooting Efficiency
+3-pointers
