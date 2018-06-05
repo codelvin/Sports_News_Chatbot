@@ -20,6 +20,14 @@ class sportReference:
                 return row['Team Name']
         return None
 
+    def getLocationTeam(self, location):
+        location = location.lower()
+        for index, row in self.data.iterrows():
+            if row['City'].lower() == location:
+                return row['Team Name']
+            if row['State'].lower() == location:
+                return row['Team Name']
+
     # using a known piece of information about a team, get an unknown piece of information
     # about the same team
     # ex: getInfo("Mascot", "Mets", "City") will return New York i.e. the city of the New York Mets

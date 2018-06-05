@@ -7,6 +7,7 @@ injuryWords = ["injury", "injured", "hurt", "out", "broken", "broke"]
 gamePerformance = ["play", "do", "peform"]
 weekdayWords = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
 dayPhrases = {"last night": -1, "this morning": 0, "this afternoon": 0, "yesterday": -1, "today": 0, "tonight": 0}
+team2Words = ["against", "verse", "versus"]
 
 # THE FOLLOWING FUNCTIONS ARE HELPERS THAT YOU SHOULDN'T NEED
 #
@@ -111,20 +112,46 @@ def playerMentioned(tagged_question, sportRef):
 
     return None
 
+
+
+
+
+
+
+
+
+
+#teamms[0]= team1, teams[1]= team2
 def teamsMentioned(tagged_question, sportRef):
     nounlist = nouns(tagged_question)
-    teams = []
+    teams = [None]*2
+
+    for team2word in team2Words:
+        for x, word in enumerate(tagged_question):
+            if team2word == word[0] and tagged_question[x+1][0]=="the":
+                found=sportRef.teamExists(tagged_question[x+2][0])
+                if found != None and found not in teams:
+                    teams[1]=found
+
+
+
     for word in nounlist:
         found = sportRef.teamExists(word)
         if found != None and found not in teams:
-            teams.append(found)
+            if teams[0] ==None:
+                teams[0] =found
+            else: 
+                teams[1] = found
 
     pairs = nouns_pairs(tagged_question)
     for pair in pairs:
         team_name = pair[0] + " " + pair[1]
         found = sportRef.teamExists(team_name)
         if found != None and found not in teams:
-            teams.append(found)
+            if teams[0] ==None:
+                teams[0] =found
+            else: 
+                teams[1] = found
 
     if len(teams) > 0:
         return teams
@@ -133,6 +160,37 @@ def teamsMentioned(tagged_question, sportRef):
 
 
 def locationMentioned(tokenized_question, sportRef):
+    locations = []
+    for first, second in zip(tokenized_question, tokenized_question[1:]):
+        if not dictionary.check(first.lower()) and not dictionary.check(second.lower()):
+            location = first.lower() + " " + second.lower()
+            if sportRef.locationHasTeam(location) and location !=None:
+                locations.append(sportRef.getLocationTeam(location))
+
+    for word in tokenized_question:
+        if not dictionary.check(word.lower()) or word == 'Buffalo' or word == 'Phoenix':
+            location = sportRef.getLocationTeam(word.lower())
+            if location != None:
+                locations.append(location)
+
+    while len(locations)  < 2:
+        locations.append(None)
+
+    return locations
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""def locationMentioned(tokenized_question, sportRef):
     for word in tokenized_question:
         if not dictionary.check(word.lower()) or word == 'Buffalo' or word == 'Phoenix':
             if sportRef.locationHasTeam(word.lower()):
@@ -144,4 +202,4 @@ def locationMentioned(tokenized_question, sportRef):
             if sportRef.locationHasTeam(location):
                 return location
 
-    return None
+    return None"""
