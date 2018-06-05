@@ -51,7 +51,7 @@ ourContextTracker = ct.ContextTracker()
     print("LOCATION MENTIONED: " + str(pt.locationMentioned(tokens, basketballRef)))
     print()"""
 
-example1 ="Lonzo Ball played on Wednesday night against the Celtics"
+example1 ="Did Los Angeles play the Bulls on Monday?"
 
 print(example1)
 tokens = nltk.word_tokenize(example1)
