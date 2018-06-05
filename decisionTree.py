@@ -9,5 +9,5 @@ import parsingTools as pt
 
 	#if yes, do it
 
-#run addContext from context
-	#should look for the 
+#run addContext from context if not
+	#should look in previous contexts for  info that would be helpful. which info? not quite sure
