@@ -1,0 +1,14 @@
+	def addContext(self):
+		recentFrame = self.frameTracker.get()
+
+		#if there is a Player
+		if xframe.player != "None":
+			if xframe.stat != "None": #there is a stats
+				if xframe.date != "None":
+					print('Player Game/Season Stat Question')
+				else:
+					print('General Player Stats')
+			else: #there is no stats
+				if xframe.date != "None":
+					print('Player Game/Season Performance')
+
