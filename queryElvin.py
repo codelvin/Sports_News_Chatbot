@@ -92,9 +92,13 @@ def get_player_game_stats(player, date):
     pretty_src = BeautifulSoup(src, "lxml")
 
     # suppose the date is like 20180402, 8-digit number
-    date = date[4:6] + '/' + date[6:]
     date = date[1:] if date[0] == '0' else date
-
+    date0 = date[4:6]
+    date0 = date0 if date0[0]!='0' else date0[1]
+    date1 = date[6:]
+    date1 = date1 if date1[0]!='0' else date1[1]
+    date = date0+'/'+date1
+    
     pretty_src = pretty_src.find('div', class_='mod-container mod-table mod-player-stats')
     games = pretty_src.findAll('tr', attrs={"class": re.compile(r".*team.*")})
 
@@ -167,7 +171,6 @@ def get_player_season_stats(player, *args):
 
 def get_team_game_result(team, date):
     date = date[6:] + '.' + date[4:6]
-    print(date)
     page = 'https://www.scoreboard.com/en/nba/results/'
     driver.get(page)
     src = driver.page_source  # source html
@@ -280,4 +283,4 @@ if __name__ == '__main__':
     abspath = os.path.abspath(r"C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe")
     driver = webdriver.Chrome(abspath)
 
-    print(get_articles(['Marcus Morris']))
+    print(get_player_game_stats('Stephen Curry', date_convert('03-06-18')))
