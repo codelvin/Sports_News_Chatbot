@@ -4,7 +4,8 @@ import re
 import os
 import pandas as pd
 
-
+abspath = os.path.abspath("chromedriver")
+driver = webdriver.Chrome(abspath)
 def date_convert(date):
     # change from 03-28-18 to 20180328
     return '20' + date[-2:] + date[0:2] + date[3:5]
@@ -87,10 +88,11 @@ def get_player_game_stats(player, date):
     players_website = pd.read_csv('playerDictionaries/players_website.csv')
     website = players_website[players_website['Player Name'] == player]['Player Website'].iloc[0]
     website = website[0:30] + '/gamelog' + website[30:]
+    print(website)
     driver.get(website)
     src = driver.page_source  # source html
     pretty_src = BeautifulSoup(src, "lxml")
-
+    
     # suppose the date is like 20180402, 8-digit number
     date = date[1:] if date[0] == '0' else date
     date0 = date[4:6]
@@ -100,9 +102,10 @@ def get_player_game_stats(player, date):
     date = date0+'/'+date1
     
     pretty_src = pretty_src.find('div', class_='mod-container mod-table mod-player-stats')
+    print(pretty_src)
     games = pretty_src.findAll('tr', attrs={"class": re.compile(r".*team.*")})
-
     msg = ''
+
     for each in games:
         if each.td.string.find(date) == -1:
             # did not found the game!
@@ -247,7 +250,6 @@ def get_team_season_stats(team, season):
 
 # given contextframe and number of type of question
 def queryHere(question, ContextFrame):
-    try:
         if (question == '1'):  # player general stats
             msg = get_player_season_stats(ContextFrame.player, '2017-2018')
         elif (question == '2'):  # player game stats
@@ -264,23 +266,11 @@ def queryHere(question, ContextFrame):
             msg = get_articles([ContextFrame.team1, '2017-2018'])
         elif (question == '8'):  # team game performance
             msg = get_articles([ContextFrame.team1, date_convert(ContextFrame.date)])
-    except:
-        msg = 'Sorry I can\'t ask that question, try another one:) .'
 
-    return msg
-
-
-# abspath = os.path.abspath(r"C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe")
-# driver = webdriver.Chrome(abspath)
+        return msg
 
 # msg1 = get_player_game_stats('Marcus Morris', '20180523')
 
 # headers, articles = get_articles(['lakers', 'trade'])
 
 # # msg2 = get_team_game_result(team = 'Toronto Raptors', date = '20180505')
-
-if __name__ == '__main__':
-    abspath = os.path.abspath(r"C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe")
-    driver = webdriver.Chrome(abspath)
-
-    print(get_player_game_stats('Stephen Curry', date_convert('06-03-18')))
