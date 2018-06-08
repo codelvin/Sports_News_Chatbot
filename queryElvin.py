@@ -3,10 +3,9 @@ from bs4 import BeautifulSoup
 import re
 import os
 import pandas as pd
-import sportReference as sr
-
+#import sportReference as sr
 import queue
-
+#from context import ContextFrame
 
 def date_convert(date):
     # change from 03-28-18 to 20180328
@@ -68,22 +67,18 @@ def get_header_article_per_url(url):
     return header, article
 
 
-def retrieve_articles(urls):
-    headers = []
-    articles = []
-    for each in urls:
-        header, article = get_header_article_per_url(each)
-        headers.append(header)
-        articles.append(article)
-
-    return headers, articles
+def retrieve_articles(url):
+    header, article = get_header_article_per_url(url)
+    article = article.split('\n')[0:2]
+    article = "\n".join(article)
+    return article
 
 
 def get_articles(keyword_list):
     query = get_query(keyword_list)
-    urls = get_url(query)
-    headers, articles = retrieve_articles(urls)
-    return headers[0:2], articles[0:2]
+    url = get_url(query)[0]
+    article = retrieve_articles(url)
+    return article 
 
 
 def get_player_game_stats(player, date):
@@ -263,9 +258,9 @@ def queryHere(question, ContextFrame):
     elif (question == '6'):  # team game stats
         msg = get_team_game_result(ContextFrame.team1, date_convert(ContextFrame.date))
     elif (question == '7'):  # team general performance
-        msg = get_articles([ContextFrame.player, '2017-2018'])
+        msg = get_articles([ContextFrame.team1, '2017-2018'])
     elif (question == '8'):  # team game performance
-        msg = get_articles([ContextFrame.player, date_convert(ContextFrame.date)])
+        msg = get_articles([ContextFrame.team1, date_convert(ContextFrame.date)])
 
     return msg
 
@@ -280,10 +275,7 @@ def queryHere(question, ContextFrame):
 # msg2 = get_team_game_result(team = 'Toronto Raptors', date = '20180505')
 
 if __name__ == '__main__':
-    abspath = os.path.abspath("/Applications/Google\ Chrome.app/")
+    abspath = os.path.abspath(r"C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe")
     driver = webdriver.Chrome(abspath)
 
-    # a = ContextFrame()
-    # a.player = 'Marcus Morris'
-    # a.date = '05-23-18'
-    # a.team1 = 'Boston Celtics'
+    print(type(get_articles(['Marcus Morris'])))
