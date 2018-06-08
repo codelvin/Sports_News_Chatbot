@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sports News Chatbot</title>
+<link type="text/css" rel="stylesheet" href="/static/style.css">
+<link href="https://fonts.googleapis.com/css?family=Bungee+Hairline" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="https://fonts.googleapis.com/css?family=Raleway:300" rel="stylesheet">
+</head>
+<body>
+
+<header>Sports News Chatbot</header>
+<h4> Elvin Zhang, Olivia Cole, Deniz Sagnaklar, Dan Stein </h4>
+
+
+<div class="botshit"> 
+
+<form action="/hello" method="post">
+
+<div class="tinput">Ask A Sports Question <span style="padding-left:3%;"> Answer: </span> </div> <br>
+
+ <textarea type="text" name="textinput" class="mytext"></textarea>
+ <textarea type="text" name="textoutput" class="myoutput">
+	{% if result %}
+        Result is: {{ result }}
+    {% endif %}
+ </textarea>
+  <br>
+
+<input value="Submit" name="form" type="submit" class="submit">
+
+</form>
+</div>
+
+
+</body>
+</html>
