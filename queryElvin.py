@@ -5,7 +5,7 @@ import os
 import pandas as pd
 import sportReference as sr
 
-import queue
+import Queue
 abspath = os.path.abspath("chromedriver")
 driver = webdriver.Chrome(abspath)
 
@@ -69,22 +69,18 @@ def get_header_article_per_url(url):
     return header, article
 
 
-def retrieve_articles(urls):
-    headers = []
-    articles = []
-    for each in urls:
-        header, article = get_header_article_per_url(each)
-        headers.append(header)
-        articles.append(article)
-
-    return headers, articles
+def retrieve_articles(url):
+    header, article = get_header_article_per_url(url)
+    article = article.split('\n')[0:2]
+    article = "\n".join(article)
+    return article
 
 
 def get_articles(keyword_list):
     query = get_query(keyword_list)
-    urls = get_url(query)
-    headers, articles = retrieve_articles(urls)
-    return headers[0:2], articles[0:2]
+    url = get_url(query)[0]
+    article = retrieve_articles(url)
+    return article
 
 
 def get_player_game_stats(player, date):
@@ -103,6 +99,7 @@ def get_player_game_stats(player, date):
     date = date[1:] if date[0] == '0' else date
 
     pretty_src = pretty_src.find('div', class_='mod-container mod-table mod-player-stats')
+    print(pretty_src)
     games = pretty_src.findAll('tr', attrs={"class": re.compile(r".*team.*")})
 
     msg = ''
@@ -173,8 +170,7 @@ def get_player_season_stats(player, *args):
 
 
 def get_team_game_result(team, date):
-    date = date[6:] + '.' + date[4:6]
-    print(date)
+    date = date[6:]  + '.' + date[4:6]
     page = 'https://www.scoreboard.com/en/nba/results/'
     driver.get(page)
     src = driver.page_source  # source html
@@ -198,11 +194,9 @@ def get_team_game_result(team, date):
     msg = ''
     # we have team and date to put in!
     for i in range(len(home)):
-        print(2, time[i], time[i].find(date) != -1)
         if (team == home[i] or team == away[i]) and time[i].find(date) != -1:
             homescore = int(score[i].split(':')[0])
             awayscore = int(score[i].split(':')[1])
-            print(home[i], away[i])
             if team == home[i]:
                 if homescore > awayscore:
                     msg = '{} won with a score of: {}:{}!'.format(team, homescore, awayscore)
@@ -251,23 +245,25 @@ def get_team_season_stats(team, season):
 
 # given contextframe and number of type of question
 def queryHere(question, ContextFrame):
-    if (question == '1'):  # player general stats
-        msg = get_player_season_stats(ContextFrame.player, '2017-2018')
-    elif (question == '2'):  # player game stats
-        msg = get_player_game_stats(ContextFrame.player, date_convert(ContextFrame.date))
-    elif (question == '3'):  # player general performance
-        msg = get_articles([ContextFrame.player, '2017-2018'])
-    elif (question == '4'):  # player game performance
-        msg = get_articles([ContextFrame.player, date_convert(ContextFrame.date)])
-    elif (question == '5'):  # team general stats
-        msg = get_team_season_stats(ContextFrame.team1, '2017-2018')
-    elif (question == '6'):  # team game stats
-        msg = get_team_game_result(ContextFrame.team1, date_convert(ContextFrame.date))
-    elif (question == '7'):  # team general performance
-        msg = get_articles([ContextFrame.team1, '2017-2018'])
-    elif (question == '8'):  # team game performance
-        msg = get_articles([ContextFrame.team1, date_convert(ContextFrame.date)])
-
+    try:
+        if (question == '1'):  # player general stats
+            msg = get_player_season_stats(ContextFrame.player, '2017-2018')
+        elif (question == '2'):  # player game stats
+            msg = get_player_game_stats(ContextFrame.player, date_convert(ContextFrame.date))
+        elif (question == '3'):  # player general performance
+            msg = get_articles([ContextFrame.player, '2017-2018'])
+        elif (question == '4'):  # player game performance
+            msg = get_articles([ContextFrame.player, date_convert(ContextFrame.date)])
+        elif (question == '5'):  # team general stats
+            msg = get_team_season_stats(ContextFrame.team1, '2017-2018')
+        elif (question == '6'):  # team game stats
+            msg = get_team_game_result(ContextFrame.team1, date_convert(ContextFrame.date))
+        elif (question == '7'):  # team general performance
+            msg = get_articles([ContextFrame.team1, '2017-2018'])
+        elif (question == '8'):  # team game performance
+            msg = get_articles([ContextFrame.team1, date_convert(ContextFrame.date)])
+    except:
+        msg = 'Sorry I cannot answer that question. Try another one:)'
     return msg
 
 

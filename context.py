@@ -1,5 +1,5 @@
 import sportReference as sr
-import queue
+import Queue
 import nltk
 import csv
 import parsingTools as pt
@@ -82,7 +82,7 @@ footballRef = sr.sportReference('football', 'teamDictionaries/Football Dictionar
 
 class ContextTracker:
 
-	frameTracker = queue.LifoQueue()
+	frameTracker = Queue.LifoQueue()
 
 	def __init__(self, sportRefs): #might have to re-add sportRefs as parameter
 		self.sportRefs = sportRefs
@@ -176,7 +176,7 @@ class ContextTracker:
 		
 	def addContext(self):
 
-		copyTracker = queue.LifoQueue()
+		copyTracker = Queue.LifoQueue()
 		copyTracker.queue = copy.deepcopy(self.frameTracker.queue)
 		baseArray = list(copyTracker.queue)
 		contextArray = list(reversed(baseArray))
@@ -190,10 +190,8 @@ class ContextTracker:
 			if current.player != None and current.date == None and current.stat == None: #Only Player name given (whenever player is given we have team)
 				if precessor.date != None: #take date of game from old context
 					current.date = precessor.date
-				if precessor.stat != None:
+				if precessor.stat != None and precessor.stat != "Win" and precessor.stat != "Lose":
 					current.stat = precessor.stat
-				else:
-					return '3', current
 
 			if current.team1 != None and current.player == None and current.date == None and current.stat == None: #only team name given
 				if precessor.date != None:
@@ -269,7 +267,8 @@ class ContextTracker:
 #------------------------------------------------------------------------------------------------------------
 ourContextTracker = ContextTracker(basketballRef)
 
-example = input("Hey! I'm your Sports News Chatbot! What's up?")
+
+example = raw_input("Hey! I'm your Sports News Chatbot! What's up?\n")
 
 while (example not in ['Bye','bye']):
 	tokens = nltk.word_tokenize(example)
@@ -281,25 +280,7 @@ while (example not in ['Bye','bye']):
 	else:
 		print(queryHere(question,frame))
 
-	example = input()
-
-
-# examples = ['How many points did Lonzo Ball score on 3-28-18?',
-# 			'How many did Stephen Curry?']
-# 			#'How many minutes did Ian Clark play against the Kings?',
-# 			#'Did Los Angeles play the Bulls on Monday?',
-# 			#Did the Warriors play the Nets on Friday?']
-#
-# for example in examples:
-# 	print(example)
-# 	tokens = nltk.word_tokenize(example)
-# 	tagged = nltk.pos_tag(tokens)
-# 	ourContextTracker.new_frame()
-# 	question,frame = ourContextTracker.addContext()
-# 	if question == None:
-# 		print("Please provide more info")
-# 	else:
-# 		print(queryHere(question,frame))
+	example = raw_input()
 
 
 
