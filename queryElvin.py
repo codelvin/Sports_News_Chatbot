@@ -212,8 +212,8 @@ def get_team_game_result(team, date):
             break
     if msg == '':
         return 'They didn\'t play on that day.'
-    return msg
-
+    return ms
+g
 
 def get_team_season_stats(team, season):
     team_website = pd.read_excel('teamDictionaries/Basketball Dictionary.xlsx')
@@ -283,4 +283,4 @@ if __name__ == '__main__':
     abspath = os.path.abspath(r"C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe")
     driver = webdriver.Chrome(abspath)
 
-    print(get_player_game_stats('Stephen Curry', date_convert('03-06-18')))
+    print(get_player_game_stats('Stephen Curry', date_convert('06-03-18')))
