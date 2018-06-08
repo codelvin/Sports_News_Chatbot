@@ -3,9 +3,7 @@ from bs4 import BeautifulSoup
 import re
 import os
 import pandas as pd
-#import sportReference as sr
-import queue
-#from context import ContextFrame
+
 
 def date_convert(date):
     # change from 03-28-18 to 20180328
@@ -245,22 +243,25 @@ def get_team_season_stats(team, season):
 
 # given contextframe and number of type of question
 def queryHere(question, ContextFrame):
-    if (question == '1'):  # player general stats
-        msg = get_player_season_stats(ContextFrame.player, '2017-2018')
-    elif (question == '2'):  # player game stats
-        msg = get_player_game_stats(ContextFrame.player, date_convert(ContextFrame.date))
-    elif (question == '3'):  # player general performance
-        msg = get_articles([ContextFrame.player, '2017-2018'])
-    elif (question == '4'):  # player game performance
-        msg = get_articles([ContextFrame.player, date_convert(ContextFrame.date)])
-    elif (question == '5'):  # team general stats
-        msg = get_team_season_stats(ContextFrame.team1, '2017-2018')
-    elif (question == '6'):  # team game stats
-        msg = get_team_game_result(ContextFrame.team1, date_convert(ContextFrame.date))
-    elif (question == '7'):  # team general performance
-        msg = get_articles([ContextFrame.team1, '2017-2018'])
-    elif (question == '8'):  # team game performance
-        msg = get_articles([ContextFrame.team1, date_convert(ContextFrame.date)])
+    try:
+        if (question == '1'):  # player general stats
+            msg = get_player_season_stats(ContextFrame.player, '2017-2018')
+        elif (question == '2'):  # player game stats
+            msg = get_player_game_stats(ContextFrame.player, date_convert(ContextFrame.date))
+        elif (question == '3'):  # player general performance
+            msg = get_articles([ContextFrame.player, '2017-2018'])
+        elif (question == '4'):  # player game performance
+            msg = get_articles([ContextFrame.player, date_convert(ContextFrame.date)])
+        elif (question == '5'):  # team general stats
+            msg = get_team_season_stats(ContextFrame.team1, '2017-2018')
+        elif (question == '6'):  # team game stats
+            msg = get_team_game_result(ContextFrame.team1, date_convert(ContextFrame.date))
+        elif (question == '7'):  # team general performance
+            msg = get_articles([ContextFrame.team1, '2017-2018'])
+        elif (question == '8'):  # team game performance
+            msg = get_articles([ContextFrame.team1, date_convert(ContextFrame.date)])
+    except:
+        msg = 'Sorry I can\'t ask that question, try another one:) .'
 
     return msg
 
@@ -272,10 +273,10 @@ def queryHere(question, ContextFrame):
 
 # headers, articles = get_articles(['lakers', 'trade'])
 
-# msg2 = get_team_game_result(team = 'Toronto Raptors', date = '20180505')
+# # msg2 = get_team_game_result(team = 'Toronto Raptors', date = '20180505')
 
-if __name__ == '__main__':
-    abspath = os.path.abspath(r"C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe")
-    driver = webdriver.Chrome(abspath)
+# if __name__ == '__main__':
+#     abspath = os.path.abspath(r"C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe")
+#     driver = webdriver.Chrome(abspath)
 
-    print(type(get_articles(['Marcus Morris'])))
+#     print(get_articles(['Marcus Morris']))
