@@ -1,10 +1,10 @@
 import sportReference as sr
-import Queue
+import queue
 import nltk
 import csv
-import parsingTools as pt 
+import parsingTools as pt
+from queryElvin import queryHere
 import copy
-import re
 
 class ContextFrame:
 
@@ -82,7 +82,7 @@ footballRef = sr.sportReference('football', 'teamDictionaries/Football Dictionar
 
 class ContextTracker:
 
-	frameTracker = Queue.LifoQueue()
+	frameTracker = queue.LifoQueue()
 
 	def __init__(self, sportRefs): #might have to re-add sportRefs as parameter
 		self.sportRefs = sportRefs
@@ -176,57 +176,58 @@ class ContextTracker:
 		
 	def addContext(self):
 
-		copyTracker = Queue.LifoQueue()
+		copyTracker = queue.LifoQueue()
 		copyTracker.queue = copy.deepcopy(self.frameTracker.queue)
 		baseArray = list(copyTracker.queue)
 		contextArray = list(reversed(baseArray))
 		#print contextArray[0]
 		#print contextArray[1]
 		current = contextArray[0]
-		precessor = contextArray[1]
-		#print(copyTracker.qsize())
+		if len(contextArray) > 1:
+			precessor = contextArray[1]
+			#print(copyTracker.qsize())
 
-		if current.player != "None" and current.date == None and current.stat == None: #Only Player name given (whenever player is given we have team)
-			if precessor.date != None: #take date of game from old context
-				current.date = precessor.date
-			if precessor.stat != None:
-				current.stat = precessor.stat
-			else:
-				return '3', current
-
-		if current.team1 != "None" and current.player == "None" and current.date == None and current.stat == None: #only team name given
-			if precessor.date != None:
-				current.date = precessor.date
-			if precessor.stat != None:
-				current.stat = precessor.stat
-			else:
-				return '7', current
-
-
-		if current.stat != None and current.team1 == "None" and current.player == "None" and current.date == None: #only stat word given
-			if precessor.player != "None":
-				current.player = precessor.player
-				if precessor.date != None:
+			if current.player != "None" and current.date == None and current.stat == None: #Only Player name given (whenever player is given we have team)
+				if precessor.date != None: #take date of game from old context
 					current.date = precessor.date
-			elif precessor.team1 != "None":
-				current.team1 = precessor.team1
-				if precessor.date != None:
-					current.date = precessor.date
-			else:
-				print('Please provide more information about the team/player you are asking about.')
-
-
-		if current.date != None and current.team1 == "None" and current.player == "None" and current.stat == None:
-			if precessor.player != "None":
-				current.player = precessor.player
 				if precessor.stat != None:
 					current.stat = precessor.stat
-			elif precessor.team1 != "None":
-				current.team1 = precessor.team1
+				else:
+					return '3', current
+
+			if current.team1 != "None" and current.player == "None" and current.date == None and current.stat == None: #only team name given
+				if precessor.date != None:
+					current.date = precessor.date
 				if precessor.stat != None:
 					current.stat = precessor.stat
-			else:
-				print('Please provide more information about what event you are referring to on this date.')
+				else:
+					return '7', current
+
+
+			if current.stat != None and current.team1 == "None" and current.player == "None" and current.date == None: #only stat word given
+				if precessor.player != "None":
+					current.player = precessor.player
+					if precessor.date != None:
+						current.date = precessor.date
+				elif precessor.team1 != "None":
+					current.team1 = precessor.team1
+					if precessor.date != None:
+						current.date = precessor.date
+				else:
+					print('Please provide more information about the team/player you are asking about.')
+
+
+			if current.date != None and current.team1 == "None" and current.player == "None" and current.stat == None:
+				if precessor.player != "None":
+					current.player = precessor.player
+					if precessor.stat != None:
+						current.stat = precessor.stat
+				elif precessor.team1 != "None":
+					current.team1 = precessor.team1
+					if precessor.stat != None:
+						current.stat = precessor.stat
+				else:
+					print('Please provide more information about what event you are referring to on this date.')
 
 #--------------------------------------------CATEGORIZING------------------------------------------------
 #[1] Player General Stats
@@ -250,7 +251,7 @@ class ContextTracker:
 				else:
 					return '3', current
 
-		else: #there is no player
+		elif current.player == 'None': #there is no player
 			if current.team1 != "None": 
 				if current.stat != None: #there is a stat
 					if current.date != None:
@@ -261,12 +262,23 @@ class ContextTracker:
 					if current.date != None:
 						return '8', current
 					else:
-						return '7', current		 
+						return '7', current
+		else:
+			return None
 
 #------------------------------------------------------------------------------------------------------------
 ourContextTracker = ContextTracker(basketballRef)
 
-#examples = ['How did Anthony Brown play?']
+# question = input("Hey! I'm your Sports News Chatbot! What's up?")
+#
+# while (question not in ['Bye','bye']):
+# 	tokens = nltk.word_tokenize(question)
+# 	tagged = nltk.pos_tag(tokens)
+# 	ourContextTracker.new_frame()
+# 	question = input()
+
+
+examples = ['How did Anthony Brown play?']
 examples = ['How many points did Anthony Brown score on 3-28-18?',
 			'How many did Stephen Curry?']
 			#'How many minutes did Ian Clark play against the Kings?',
@@ -278,12 +290,15 @@ for example in examples:
 	tokens = nltk.word_tokenize(example)
 	tagged = nltk.pos_tag(tokens)
 	ourContextTracker.new_frame()
+	question,frame = ourContextTracker.addContext()
+	if question == None:
+		print("Please provide more info")
+	else:
+		print(queryHere(question,frame))
 
 
 
 #ourContextTracker.printTracker()
-hey = ourContextTracker.addContext()
-print hey
 
 
 #testing for one example at a time
