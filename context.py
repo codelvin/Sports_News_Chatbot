@@ -187,7 +187,7 @@ class ContextTracker:
 			precessor = contextArray[1]
 			#print(copyTracker.qsize())
 
-			if current.player != "None" and current.date == None and current.stat == None: #Only Player name given (whenever player is given we have team)
+			if current.player != None and current.date == None and current.stat == None: #Only Player name given (whenever player is given we have team)
 				if precessor.date != None: #take date of game from old context
 					current.date = precessor.date
 				if precessor.stat != None:
@@ -195,7 +195,7 @@ class ContextTracker:
 				else:
 					return '3', current
 
-			if current.team1 != "None" and current.player == "None" and current.date == None and current.stat == None: #only team name given
+			if current.team1 != None and current.player == None and current.date == None and current.stat == None: #only team name given
 				if precessor.date != None:
 					current.date = precessor.date
 				if precessor.stat != None:
@@ -204,12 +204,12 @@ class ContextTracker:
 					return '7', current
 
 
-			if current.stat != None and current.team1 == "None" and current.player == "None" and current.date == None: #only stat word given
-				if precessor.player != "None":
+			if current.stat != None and current.team1 == None and current.player == None and current.date == None: #only stat word given
+				if precessor.player != None:
 					current.player = precessor.player
 					if precessor.date != None:
 						current.date = precessor.date
-				elif precessor.team1 != "None":
+				elif precessor.team1 != None:
 					current.team1 = precessor.team1
 					if precessor.date != None:
 						current.date = precessor.date
@@ -217,12 +217,12 @@ class ContextTracker:
 					print('Please provide more information about the team/player you are asking about.')
 
 
-			if current.date != None and current.team1 == "None" and current.player == "None" and current.stat == None:
-				if precessor.player != "None":
+			if current.date != None and current.team1 == None and current.player == None and current.stat == None:
+				if precessor.player != None:
 					current.player = precessor.player
 					if precessor.stat != None:
 						current.stat = precessor.stat
-				elif precessor.team1 != "None":
+				elif precessor.team1 != None:
 					current.team1 = precessor.team1
 					if precessor.stat != None:
 						current.stat = precessor.stat
@@ -239,7 +239,7 @@ class ContextTracker:
 #[7] Team General Performance
 #[8] Team Game Performance
 
-		if current.player != "None":
+		if current.player != None:
 			if current.stat != None: #there is a stats
 				if current.date == None:
 					return '1', current
@@ -251,8 +251,8 @@ class ContextTracker:
 				else:
 					return '3', current
 
-		elif current.player == 'None': #there is no player
-			if current.team1 != "None": 
+		elif current.player == None: #there is no player
+			if current.team1 != None:
 				if current.stat != None: #there is a stat
 					if current.date != None:
 						return '6', current
@@ -269,24 +269,9 @@ class ContextTracker:
 #------------------------------------------------------------------------------------------------------------
 ourContextTracker = ContextTracker(basketballRef)
 
-# question = input("Hey! I'm your Sports News Chatbot! What's up?")
-#
-# while (question not in ['Bye','bye']):
-# 	tokens = nltk.word_tokenize(question)
-# 	tagged = nltk.pos_tag(tokens)
-# 	ourContextTracker.new_frame()
-# 	question = input()
+example = input("Hey! I'm your Sports News Chatbot! What's up?")
 
-
-examples = ['How did Anthony Brown play?']
-examples = ['How many points did Anthony Brown score on 3-28-18?',
-			'How many did Stephen Curry?']
-			#'How many minutes did Ian Clark play against the Kings?',
-			#'Did Los Angeles play the Bulls on Monday?',
-			#Did the Warriors play the Nets on Friday?']
-
-for example in examples:
-	print(example)
+while (example not in ['Bye','bye']):
 	tokens = nltk.word_tokenize(example)
 	tagged = nltk.pos_tag(tokens)
 	ourContextTracker.new_frame()
@@ -295,6 +280,26 @@ for example in examples:
 		print("Please provide more info")
 	else:
 		print(queryHere(question,frame))
+
+	example = input()
+
+
+# examples = ['How many points did Lonzo Ball score on 3-28-18?',
+# 			'How many did Stephen Curry?']
+# 			#'How many minutes did Ian Clark play against the Kings?',
+# 			#'Did Los Angeles play the Bulls on Monday?',
+# 			#Did the Warriors play the Nets on Friday?']
+#
+# for example in examples:
+# 	print(example)
+# 	tokens = nltk.word_tokenize(example)
+# 	tagged = nltk.pos_tag(tokens)
+# 	ourContextTracker.new_frame()
+# 	question,frame = ourContextTracker.addContext()
+# 	if question == None:
+# 		print("Please provide more info")
+# 	else:
+# 		print(queryHere(question,frame))
 
 
 

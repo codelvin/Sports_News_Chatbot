@@ -6,7 +6,8 @@ import pandas as pd
 import sportReference as sr
 
 import queue
-
+abspath = os.path.abspath("chromedriver")
+driver = webdriver.Chrome(abspath)
 
 def date_convert(date):
     # change from 03-28-18 to 20180328
@@ -263,9 +264,9 @@ def queryHere(question, ContextFrame):
     elif (question == '6'):  # team game stats
         msg = get_team_game_result(ContextFrame.team1, date_convert(ContextFrame.date))
     elif (question == '7'):  # team general performance
-        msg = get_articles([ContextFrame.player, '2017-2018'])
+        msg = get_articles([ContextFrame.team1, '2017-2018'])
     elif (question == '8'):  # team game performance
-        msg = get_articles([ContextFrame.player, date_convert(ContextFrame.date)])
+        msg = get_articles([ContextFrame.team1, date_convert(ContextFrame.date)])
 
     return msg
 
@@ -279,9 +280,7 @@ def queryHere(question, ContextFrame):
 
 # msg2 = get_team_game_result(team = 'Toronto Raptors', date = '20180505')
 
-if __name__ == '__main__':
-    abspath = os.path.abspath("/Applications/Google\ Chrome.app/")
-    driver = webdriver.Chrome(abspath)
+
 
     # a = ContextFrame()
     # a.player = 'Marcus Morris'
