@@ -23,3 +23,6 @@ NBA Rating
 Scoring Efficiency
 Shooting Efficiency
 3-pointers
+Win
+Lose
+Beat

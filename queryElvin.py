@@ -212,8 +212,8 @@ def get_team_game_result(team, date):
             break
     if msg == '':
         return 'They didn\'t play on that day.'
-    return ms
-g
+    return msg
+
 
 def get_team_season_stats(team, season):
     team_website = pd.read_excel('teamDictionaries/Basketball Dictionary.xlsx')

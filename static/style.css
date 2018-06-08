@@ -1,0 +1,56 @@
+body{
+    background-color: #ACD6EB;
+    font-family:'Raleway';
+    color:#5A6164;
+    margin-top:3%;
+}
+
+header{
+    text-align: center;
+    font-size:40px;
+    text-decoration:bold;
+    padding-top:2%;
+    
+}
+h4{
+    text-align: center;
+    margin-top:1%;
+    font-size:18px;
+    color: #23093E;
+}
+.mytext{
+    width:450px;
+    height:150px;
+    text-align: left;
+    padding: 0.4em 0.4em 0.4em 0;
+    margin-left:17%;
+
+}
+form{
+    display:inline;
+}
+.botshit{
+    margin-top:5%;
+}
+.tinput{
+    font-size:18px;
+    text-align:center;
+    margin-left:-7%;
+
+}
+.toutput{
+    text-align:right;
+    margin-right:20%;
+}
+.myoutput{
+    width:450px;
+    height:150px;
+    text-align: left;
+    padding: 0.4em 0.4em 0.4em 0;
+    margin-left:3%;
+}
+.submit{
+    margin-left:38.5%;
+    width:150px;
+    margin-top:10px;
+}
