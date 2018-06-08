@@ -131,7 +131,7 @@ class ContextTracker:
 
 		self.currFrame = newFrame
 		self.pushFrame()
-		print(self.currFrame)
+		#print(self.currFrame)
 
 	def printTracker(self):
 		print(self.frameTracker.qsize())
@@ -145,36 +145,31 @@ class ContextTracker:
 
 		self.frameTracker.put(self.currFrame)
 
-	def categorize(self):
-		copyTracker = Queue.LifoQueue()
-		copyTracker.queue = copy.deepcopy(self.frameTracker.queue)
 
-		xframe = copyTracker.get()
-		print(copyTracker.qsize())
-		print(self.frameTracker.qsize())
 
+	def categorize(current):
 		#if there is a Player
-		if xframe.player != "None":
-			if xframe.stat != None: #there is a stats
-				if xframe.date == None:
+		if current.player != "None":
+			if current.stat != None: #there is a stats
+				if current.date == None:
 					print('There is no date. General Player Stats Question')
 				else:
 					print('There is a date. Player Game/Season Stat Question')
 			else: #there is no stats - so performance
-				if xframe.date != None:
+				if current.date != None:
 					print('There is no stat. There is a date. Player Game/Season Performance Question')
 				else:
 					print('There is no stat and there is no date. Player Performance Question')
 
 		else: #there is no player
-			if xframe.team1 != "None": 
-				if xframe.stat != None: #there is a stat
-					if xframe.date != None:
+			if current.team1 != "None": 
+				if current.stat != None: #there is a stat
+					if current.date != None:
 						print('Team Game Stats Question')
 					else:
 						print('Team General Stats Question')
 				else: #there is no stats - so performance
-					if xframe.date != None:
+					if current.date != None:
 						print('There is no stat. There is a date. Team Game/Season Performance Question')
 					else:
 						print('There is no stat. There is no date. Team Performance Question')
@@ -185,11 +180,11 @@ class ContextTracker:
 		copyTracker.queue = copy.deepcopy(self.frameTracker.queue)
 		baseArray = list(copyTracker.queue)
 		contextArray = list(reversed(baseArray))
-		print contextArray[0]
-		print contextArray[1]
+		#print contextArray[0]
+		#print contextArray[1]
 		current = contextArray[0]
 		precessor = contextArray[1]
-		print(copyTracker.qsize())
+		#print(copyTracker.qsize())
 
 		if current.player != "None" and current.date == None and current.stat == None: #Only Player name given (whenever player is given we have team)
 			if precessor.date != None: #take date of game from old context
@@ -197,7 +192,7 @@ class ContextTracker:
 			if precessor.stat != None:
 				current.stat = precessor.stat
 			else:
-				print('Player General Season Performance')
+				return '3', current
 
 		if current.team1 != "None" and current.player == "None" and current.date == None and current.stat == None: #only team name given
 			if precessor.date != None:
@@ -205,7 +200,7 @@ class ContextTracker:
 			if precessor.stat != None:
 				current.stat = precessor.stat
 			else:
-				print('Team General Season Performance')
+				return '7', current
 
 
 		if current.stat != None and current.team1 == "None" and current.player == "None" and current.date == None: #only stat word given
@@ -219,8 +214,54 @@ class ContextTracker:
 					current.date = precessor.date
 			else:
 				print('Please provide more information about the team/player you are asking about.')
-			 
-		print contextArray[0]
+
+
+		if current.date != None and current.team1 == "None" and current.player == "None" and current.stat == None:
+			if precessor.player != "None":
+				current.player = precessor.player
+				if precessor.stat != None:
+					current.stat = precessor.stat
+			elif precessor.team1 != "None":
+				current.team1 = precessor.team1
+				if precessor.stat != None:
+					current.stat = precessor.stat
+			else:
+				print('Please provide more information about what event you are referring to on this date.')
+
+#--------------------------------------------CATEGORIZING------------------------------------------------
+#[1] Player General Stats
+#[2] Player Game Stats
+#[3] Player General Performance
+#[4] Player Game Performance
+#[5] Team General Stats
+#[6] Team Game Stats
+#[7] Team General Performance
+#[8] Team Game Performance
+
+		if current.player != "None":
+			if current.stat != None: #there is a stats
+				if current.date == None:
+					return '1', current
+				else:
+					return '2', current
+			else: #there is no stats - so performance
+				if current.date != None:
+					return '4', current
+				else:
+					return '3', current
+
+		else: #there is no player
+			if current.team1 != "None": 
+				if current.stat != None: #there is a stat
+					if current.date != None:
+						return '6', current
+					else:
+						return '5', current
+				else: #there is no stats - so performance
+					if current.date != None:
+						return '8', current
+					else:
+						return '7', current		 
 
 #------------------------------------------------------------------------------------------------------------
 ourContextTracker = ContextTracker(basketballRef)
@@ -241,7 +282,9 @@ for example in examples:
 
 
 #ourContextTracker.printTracker()
-ourContextTracker.addContext()
+hey = ourContextTracker.addContext()
+print hey
+
 
 #testing for one example at a time
 
