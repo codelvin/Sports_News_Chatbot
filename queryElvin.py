@@ -76,6 +76,7 @@ def get_articles(keyword_list):
     query = get_query(keyword_list)
     url = get_url(query)[0]
     article = retrieve_articles(url)
+    print(type(article))
     return article 
 
 
@@ -275,8 +276,8 @@ def queryHere(question, ContextFrame):
 
 # # msg2 = get_team_game_result(team = 'Toronto Raptors', date = '20180505')
 
-# if __name__ == '__main__':
-#     abspath = os.path.abspath(r"C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe")
-#     driver = webdriver.Chrome(abspath)
+if __name__ == '__main__':
+    abspath = os.path.abspath(r"C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe")
+    driver = webdriver.Chrome(abspath)
 
-#     print(get_articles(['Marcus Morris']))
+    print(get_articles(['Marcus Morris']))
